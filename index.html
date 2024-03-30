@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Selection</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+    background-image: url('https://source.unsplash.com/1920x1080/?education');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    color: white;
+}
+#collegeList{
+    color: black;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.card-title {
+    color: #333;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">College Selection</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="districtSelect">Select District:</label>
+                    <select id="districtSelect" class="form-control" onchange="showCourses()">
+                        <option value="">Select District</option>
+                        <option value="Alappuzha">Alappuzha</option>
+                        <option value="Ernakulam">Ernakulam</option>
+                        <option value="Idukki">Idukki</option>
+                        <option value="Kannur">Kannur</option>
+                        <option value="Kasaragod">Kasaragod</option>
+                        <option value="Kollam">Kollam</option>
+                        <option value="Kottayam">Kottayam</option>
+                        <option value="Kozhikode">Kozhikode</option>
+                        <option value="Malappuram">Malappuram</option>
+                        <option value="Palakkad">Palakkad</option>
+                        <option value="Pathanamthitta">Pathanamthitta</option>
+                        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                        <option value="Thrissur">Thrissur</option>
+                        <option value="Wayanad">Wayanad</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" id="courseSelection" style="display:none;">
+                    <label for="courseSelect">Select Course:</label>
+                    <select id="courseSelect" class="form-control" onchange="showColleges()">
+                        <option value="">Select Course</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card" id="collegeList" style="display:none;">
+                    <div class="card-body">
+                        <h2 class="card-title">Colleges offering the selected course:</h2>
+                        <ul class="list-group" id="collegeNames"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var coursesByDistrict = {
+            Alappuzha: ["B.Tech", "B.Sc", "B.Com"],
+            Ernakulam: ["B.Tech", "B.Sc", "BBA"],
+            Idukki: ["B.Sc", "B.Com", "BBA"],
+            Kannur: ["B.Tech", "BBA", "BCA"],
+            Kasaragod: ["B.Sc", "B.Com", "B.Arch"],
+            Kollam: ["B.Tech", "B.Com", "B.Arch"],
+            Kottayam: ["B.Tech", "B.Sc", "B.Com"],
+            Kozhikode: ["B.Tech", "B.Sc", "BBA"],
+            Malappuram: ["B.Sc", "B.Com", "BBA"],
+            Palakkad: ["B.Tech", "B.Sc", "B.Com"],
+            Pathanamthitta: ["B.Tech", "B.Sc", "BBA"],
+            Thiruvananthapuram: ["B.Tech", "B.Sc", "B.Com"],
+            Thrissur: ["B.Tech", "B.Sc", "BBA"],
+            Wayanad: ["B.Sc", "B.Com", "BBA"]
+        };
+
+        var collegesByCourse = {
+            "B.Tech": ["College A", "College B", "College C"],
+            "B.Sc": ["College D", "College E", "College F"],
+            "B.Com": ["College G", "College H", "College I"],
+            "BBA": ["College J", "College K", "College L"],
+            "BCA": ["College M", "College N", "College O"],
+            "B.Arch": ["College P", "College Q", "College R"]
+        };
+
+        function showCourses() {
+            var district = document.getElementById("districtSelect").value;
+            var courseSelect = document.getElementById("courseSelect");
+            courseSelect.innerHTML = "<option value=''>Select Course</option>";
+
+            if (district) {
+                coursesByDistrict[district].forEach(function(course) {
+                    var option = document.createElement("option");
+                    option.value = course;
+                    option.text = course;
+                    courseSelect.appendChild(option);
+                });
+                document.getElementById("courseSelection").style.display = "block";
+            } else {
+                document.getElementById("courseSelection").style.display = "none";
+            }
+            document.getElementById("collegeList").style.display = "none";
+        }
+
+        function showColleges() {
+            var district = document.getElementById("districtSelect").value;
+            var course = document.getElementById("courseSelect").value;
+
+            if (district && course) {
+                var collegeNames = collegesByCourse[course];
+                displayCollegeNames(collegeNames);
+            }
+        }
+
+        function displayCollegeNames(collegeNames) {
+            var collegeList = document.getElementById("collegeNames");
+            collegeList.innerHTML = "";
+            collegeNames.forEach(function(college) {
+                var listItem = document.createElement("li");
+                listItem.textContent = college;
+                collegeList.appendChild(listItem);
+            });
+
+            document.getElementById("collegeList").style.display = "block";
+        }
+    </script>
+</body>
+</html>
